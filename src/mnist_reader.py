@@ -1,3 +1,9 @@
+""" Read and display a few training and test images.
+    Requires opencv & numpy.
+    Tested with python2, opencv3.0.0
+"""
+
+
 from __future__ import print_function
 
 import cv2
@@ -5,38 +11,38 @@ import numpy as np
 import itertools
 
 
-# training set
+# constants
+
+DATA_DIR = '../data'
+TRAINING_IMAGES_PATH = DATA_DIR + '/train-images-idx3-ubyte'
+TRAINING_LABELS_PATH = DATA_DIR + '/train-labels-idx1-ubyte'
+TEST_IMAGES_PATH = DATA_DIR + '/t10k-images-idx3-ubyte'
+TEST_LABELS_PATH = DATA_DIR + '/t10k-labels-idx1-ubyte'
+
 DIGIT_HEIGHT = 28
 DIGIT_WIDTH = 28
 DIGIT_BYTES = DIGIT_HEIGHT * DIGIT_WIDTH
 
-NUM_DIGITS = 60000
+NUM_DIGITS_TRAIN = 60000
+NUM_DIGITS_TEST = 10000
 
 
 def main():
     print("some training set examples")
-    i = 0
     for digit_img, label in itertools.izip(
-            read_training_image_set('train-images-idx3-ubyte'),
-            read_training_label_set('train-labels-idx1-ubyte')):
+            read_image_set(TRAINING_IMAGES_PATH, 5),
+            read_label_set(TRAINING_LABELS_PATH, 5)):
         print(label)
         cv2.imshow('digit', digit_img)
         cv2.waitKey(0)
-        i += 1
-        if i > 5:
-            break
 
     print("some test set examples")
-    i = 0
     for digit_img, label in itertools.izip(
-            read_training_image_set('t10k-images-idx3-ubyte'),
-            read_training_label_set('t10k-labels-idx1-ubyte')):
+            read_image_set(TEST_IMAGES_PATH, 5),
+            read_label_set(TEST_LABELS_PATH, 5)):
         print(label)
         cv2.imshow('digit', digit_img)
         cv2.waitKey(0)
-        i += 1
-        if i > 5:
-            break
 
 
 def read_image_set(path, num_digits):
@@ -49,11 +55,11 @@ def read_image_set(path, num_digits):
     with open(path, 'rb') as infile:
         magic_num = infile.read(4)
         assert(magic_num == '\x00\x00\x08\x03')
-        # num_images = infile.read(4)
-        rows = infile.read(4)
-        cols = infile.read(4)
+        # read past unused data
+        infile.read(12)
         for i in range(num_digits):
-            img = np.array([ord(x) for x in infile.read(DIGIT_BYTES)], dtype=np.uint8)
+            img = np.array(
+                [ord(x) for x in infile.read(DIGIT_BYTES)], dtype=np.uint8)
             yield img.reshape((DIGIT_HEIGHT, DIGIT_WIDTH))
 
 
@@ -66,7 +72,8 @@ def read_label_set(path, num_labels):
     with open(path, 'rb') as infile:
         magic_num = infile.read(4)
         assert(magic_num == '\x00\x00\x08\x01')
-        # num_labels = infile.read(4)
+        # read past unused data
+        infile.read(4)
         for i in range(num_labels):
             yield ord(infile.read(1))
 
