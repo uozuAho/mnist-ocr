@@ -45,6 +45,26 @@ def main():
         cv2.waitKey(0)
 
 
+def training_images(num_images=NUM_DIGITS_TRAIN):
+    for img in read_image_set(TRAINING_IMAGES_PATH, num_images):
+        yield img
+
+
+def training_labels(num_labels=NUM_DIGITS_TRAIN):
+    for label in read_label_set(TRAINING_LABELS_PATH, num_labels):
+        yield label
+
+
+def test_images(num_images=NUM_DIGITS_TEST):
+    for img in read_image_set(TEST_IMAGES_PATH, num_images):
+        yield img
+
+
+def test_labels(num_labels=NUM_DIGITS_TEST):
+    for label in read_label_set(TEST_LABELS_PATH, num_labels):
+        yield label
+
+
 def read_image_set(path, num_digits):
     """ Yield the training image set of 60000 digits, 28x28 pixels,
         8 bits per pixel.
