@@ -1,4 +1,4 @@
-""" KNN digit classifier, with no pre processing.
+""" kNN digit classifier, with no pre processing.
 
     # Requires
         - python (python2 tested)
@@ -47,20 +47,21 @@ import time
 import cv2
 import numpy as np
 
-import mnist_reader as mnist
+from utils import knn
+from utils import mnist_reader as mnist
 
 
 # Number of digits to train with (max 60000)
-TRAINING_SIZE = 60000
+TRAINING_SIZE = 1000
 
 # Number of digits from the test set to classify (max 10000)
-TEST_SIZE = 10000
+TEST_SIZE = 1000
 
 
 def main():
     print("training knn classifier...")
     start = time.clock()
-    knn = KnnDigitClassifier(TRAINING_SIZE)
+    classifier = knn.KnnDigitClassifier(preprocess, TRAINING_SIZE)
     end = time.clock()
     training_time = end - start
 
@@ -74,7 +75,7 @@ def main():
     for digit_img, label in itertools.izip(
             mnist.test_images(TEST_SIZE),
             mnist.test_labels(TEST_SIZE)):
-        predicted_digit = knn.predict(digit_img)
+        predicted_digit = classifier.predict(digit_img)
         num_predictions += 1
         if predicted_digit == label:
             num_correct += 1
@@ -88,56 +89,8 @@ def main():
             classification_time / TEST_SIZE))
 
 
-class KnnDigitClassifier:
-    def __init__(self, training_set_size=mnist.NUM_DIGITS_TRAIN):
-        # KNN predictor object
-        self.knn = None
-        self._train(training_set_size)
-
-    def predict(self, img, k=5):
-        """ Predict the digit in the given image.
-
-            Parameters:
-                img (np.array):
-                    Image to predict. Expected to be a 28x28 digit image
-                    from the MNIST dataset.
-
-            Returns:
-                int: predicted digit
-        """
-        ret, result, neighbours, dist = self.predict_detailed(img, k)
-        return int(ret)
-
-    def predict_detailed(self, img, k=5):
-        """ Directly returns results of knn.findNearest().
-
-            Parameters:
-                img (np.array):
-                    Image to predict. Expected to be a 28x28 digit image
-                    from the MNIST dataset.
-
-            Returns:
-                (ret, result, neighbours, distance)
-
-                ret -        nearest neighbour: float
-                result -     array containing ret??
-                neighbours - array of k nearest neighbours
-                distance -   array of distances of neighbours the given image
-        """
-        vec = img.reshape(1, -1).astype(np.float32)
-        return self.knn.findNearest(vec, k=k)
-
-    def _train(self, num_trains=mnist.NUM_DIGITS_TRAIN):
-        """ Train on the MNIST training set """
-        # prepare the training data
-        training_set = list(mnist.training_images(num_trains))
-        training_labels = list(mnist.training_labels(num_trains))
-        # convert the training set into vectors (instead of m*n images)
-        training_set = np.array(training_set).reshape(-1, 28*28).astype(np.float32)
-        training_labels = np.array(training_labels)
-        # create & train the knn object
-        self.knn = cv2.ml.KNearest_create()
-        self.knn.train(training_set, cv2.ml.ROW_SAMPLE, training_labels)
+def preprocess(img):
+    return img
 
 
 if __name__ == '__main__':

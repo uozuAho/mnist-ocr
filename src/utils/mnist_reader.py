@@ -6,14 +6,16 @@
 
 from __future__ import print_function
 
+import os
+
 import cv2
 import numpy as np
 import itertools
 
+__mydir = os.path.dirname(os.path.realpath(__file__))
 
 # constants
-
-DATA_DIR = '../data'
+DATA_DIR = os.path.join(__mydir, '..', '..', 'data')
 TRAINING_IMAGES_PATH = DATA_DIR + '/train-images-idx3-ubyte'
 TRAINING_LABELS_PATH = DATA_DIR + '/train-labels-idx1-ubyte'
 TEST_IMAGES_PATH = DATA_DIR + '/t10k-images-idx3-ubyte'
