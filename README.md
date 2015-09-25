@@ -13,3 +13,5 @@ from the above site and use gunzip to decompress them.
 - parallelize knn classifiers
 - try knn on binary images
 - renew benchmark figures of all classifiers
+- add SVM example
+- test preprocessing stages separately, see what gets best results

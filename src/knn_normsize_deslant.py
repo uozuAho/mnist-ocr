@@ -1,37 +1,9 @@
-""" kNN digit classifier, with no pre processing.
-
-    # Requires
-        - python (python2 tested)
-        - opencv (3.0.0 tested)
-        - numpy
-
-    A disadvantage of this method is that the entire training data
-    set is required to be in memory for classification.
-
-    Best accuracy: 96.88% (3.12% error rate), using all training
-    and test data. 10s to train, 30ms / digit classification rate.
-
-    # Some results
-
-    Training images: 5000,  test images: 10000
-    Accuracy: 95.95%
-    Training time: 1.038233s
-    Total classification time: 15.916733s (0.001592s / digit)
-
-    Training images: 10000,  test images: 10000
-    Accuracy: 96.74%
-    Training time: 1.965730s
-    Total classification time: 29.044025s (0.002904s / digit)
-
-    Training images: 20000,  test images: 10000
-    Accuracy: 97.41%
-    Training time: 3.825669s
-    Total classification time: 54.745351s (0.005475s / digit)
-
-    Training images: 40000,  test images: 10000
-    Accuracy: 97.95%
-    Training time: 7.645315s
-    Total classification time: 106.770302s (0.010677s / digit)
+""" kNN digit classifier, preprocessing images before training &
+    classification. Preprocessing:
+    - de-slant image based on image moments
+    - normalise digit size by finding each digit's bounding box,
+      cropping image to just the digit, then resizing to a pre-
+      determined size.
 """
 
 from __future__ import print_function
@@ -41,7 +13,7 @@ import numpy as np
 
 from utils import classifier as cs
 from utils import knn
-from utils import mnist_reader as mnist
+from utils import mnist
 
 # Size that digit images are normalised to
 NORMALISED_SIZE = (20, 20)

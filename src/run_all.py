@@ -5,7 +5,7 @@ Run all the classifiers for testing / benchmarking
 from __future__ import print_function
 
 from utils import classifier as cf
-from utils import mnist_reader as mnist
+from utils import mnist
 
 import knn_no_processing
 import knn_normsize_deslant
@@ -29,8 +29,8 @@ CLASSIFIERS = [
 
 
 def main():
-    # test_all_classifiers()
-    benchmark_all_classifiers()
+    test_all_classifiers()
+    # benchmark_all_classifiers()
 
 
 def test_all_classifiers():
