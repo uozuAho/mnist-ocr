@@ -4,3 +4,6 @@ __pycache__/
 
 # MNIST data (available online, big)
 data/
+
+# Pycharm IDE files
+.idea

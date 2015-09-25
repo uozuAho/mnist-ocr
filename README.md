@@ -9,5 +9,7 @@ To get the MNIST data files, run `get-mnist-data.sh`, or download the files
 from the above site and use gunzip to decompress them.
 
 # todo
-- make each classifier implement a standard interface
-- make a classifier runner that collects statistics
+- get memory usage info of classifiers
+- parallelize knn classifiers
+- try knn on binary images
+- renew benchmark figures of all classifiers

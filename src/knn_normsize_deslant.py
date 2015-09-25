@@ -36,59 +36,32 @@
 
 from __future__ import print_function
 
-import itertools
-import time
-
 import cv2
 import numpy as np
 
+from utils import classifier as cs
 from utils import knn
 from utils import mnist_reader as mnist
-
-
-# Number of digits to train with (max 60000)
-TRAINING_SIZE = 60000
-
-# Number of digits from the test set to classify (max 10000)
-TEST_SIZE = 10000
 
 # Size that digit images are normalised to
 NORMALISED_SIZE = (20, 20)
 
 
-def main():
-    print("training knn classifier...")
-    start = time.clock()
-    classifier = knn.KnnDigitClassifier(preprocess, TRAINING_SIZE)
-    end = time.clock()
-    training_time = end - start
-    print("...done""")
+class KnnNormSizeDeslant(knn.KnnDigitClassifier):
 
-    print("classifying test set...")
-    num_predictions = 0
-    num_correct = 0
-    start = time.clock()
-    # TODO: I think you can do predictall() or similar, may be faster
-    for digit_img, label in itertools.izip(
-            mnist.test_images(TEST_SIZE),
-            mnist.test_labels(TEST_SIZE)):
-        predicted_digit = classifier.predict(digit_img)
-        num_predictions += 1
-        if predicted_digit == label:
-            num_correct += 1
-    end = time.clock()
-    classification_time = end - start
-    print("...done")
-    print("Training images: %d,  test images: %d" % (TRAINING_SIZE, TEST_SIZE))
-    print("Accuracy: %.2f%%" % (100.0 * num_correct / num_predictions))
-    print("Training time: %fs" % training_time)
-    print("Total classification time: %fs (%fs / digit)" % (classification_time,
-            classification_time / TEST_SIZE))
+    def train(self, images, labels):
+        super(KnnNormSizeDeslant, self).train(self.preprocess_all(images), labels)
 
+    def classify(self, image):
+        return super(KnnNormSizeDeslant, self).classify(self.preprocess(image))
 
-def preprocess(img):
-    desl = deslant(img)
-    return normalise_size(desl)
+    def preprocess(self, image):
+        desl = deslant(image)
+        return normalise_size(desl)
+
+    def preprocess_all(self, images):
+        for image in images:
+            yield self.preprocess(image)
 
 
 def normalise_size(img):
@@ -126,4 +99,9 @@ def deslant(img):
 
 
 if __name__ == '__main__':
-    main()
+    NUM_TRAINS = 100
+    NUM_TESTS = 100
+    runner = cs.ClassifierRunner(KnnNormSizeDeslant())
+    runner.train(mnist.training_images(NUM_TRAINS), mnist.training_labels(NUM_TRAINS))
+    runner.run(mnist.test_images(NUM_TESTS), mnist.test_labels(NUM_TESTS))
+    print(runner.get_report_str())
