@@ -9,6 +9,7 @@ from utils import mnist
 
 import knn_no_processing
 import knn_normsize_deslant
+import svm
 
 
 TEST_TRAIN_SIZE = 100
@@ -16,15 +17,16 @@ TEST_TEST_SIZE = 100
 
 BENCHMARK_TRAIN_SIZES = [
     10000,
-    # 20000,
-    # 40000,
-    # 60000
+    20000,
+    40000,
+    60000
 ]
 BENCHMARK_TEST_SIZE = 10000
 
 CLASSIFIERS = [
     knn_no_processing.KnnNoProcessing(),
-    knn_normsize_deslant.KnnNormSizeDeslant()
+    knn_normsize_deslant.KnnNormSizeDeslant(),
+    svm.SvmDeslantHog()
 ]
 
 

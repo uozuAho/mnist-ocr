@@ -8,10 +8,18 @@ in papers/) also provides a broad overview of techniques.
 To get the MNIST data files, run `get-mnist-data.sh`, or download the files
 from the above site and use gunzip to decompress them.
 
+# Dependencies
+- Python (tested using 2.7)
+- OpenCV (tested using 3.0.0)
+- Numpy
+
 # todo
 - get memory usage info of classifiers
 - parallelize knn classifiers
+  - predictall? should run faster
 - try knn on binary images
 - renew benchmark figures of all classifiers
-- add SVM example
 - test preprocessing stages separately, see what gets best results
+- create preprocessing module for use among classifiers
+- create test, quick benchmark, full benchmark scripts
+- SVM example not very accurate... implementation mistake?
