@@ -20,5 +20,4 @@ from the above site and use gunzip to decompress them.
 - try knn on binary images
 - renew benchmark figures of all classifiers
 - test preprocessing stages separately, see what gets best results
-- create preprocessing module for use among classifiers
 - use python 3

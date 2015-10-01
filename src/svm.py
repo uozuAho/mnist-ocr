@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 
 from utils import classifier as cs
+from utils import imgproc
 
 
 DIGIT_SIZE = 28
@@ -30,10 +31,12 @@ class SvmDeslantHog(cs.GenericClassifier):
         training_set = [self.preprocess(img) for img in images]
         training_labels = list(labels)
         # convert the training set into vectors (instead of m*n images)
-        training_set = np.array(training_set).reshape(-1, NUM_CELLS * NUM_BINS).astype(np.float32)
+        training_set = np.array(
+            training_set).reshape(-1, NUM_CELLS * NUM_BINS).astype(np.float32)
         training_labels = np.array(training_labels)
         # train the svm
-        self.svm.train(samples=training_set, layout=cv2.ml.ROW_SAMPLE, responses=training_labels)
+        self.svm.train(samples=training_set, layout=cv2.ml.ROW_SAMPLE,
+                       responses=training_labels)
 
     def classify(self, image):
         proc = self.preprocess(image)
@@ -43,29 +46,5 @@ class SvmDeslantHog(cs.GenericClassifier):
         return classification
 
     def preprocess(self, image):
-        desl = deslant(image)
-        return hog(desl)
-
-
-def deslant(img):
-    m = cv2.moments(img)
-    if abs(m['mu02']) < 1e-2:
-        return img.copy()
-    skew = m['mu11']/m['mu02']
-    M = np.float32([[1, skew, -0.5 * DIGIT_SIZE * skew], [0, 1, 0]])
-    img = cv2.warpAffine(img, M, (DIGIT_SIZE, DIGIT_SIZE),
-                         flags=cv2.WARP_INVERSE_MAP | cv2.INTER_LINEAR)
-    return img
-
-
-def hog(img):
-    gx = cv2.Sobel(img, cv2.CV_32F, 1, 0)
-    gy = cv2.Sobel(img, cv2.CV_32F, 0, 1)
-    mag, ang = cv2.cartToPolar(gx, gy)
-    bins = np.int32(NUM_BINS * ang / (2 * np.pi))
-    # TODO: remove hard-coded cell sizes
-    bin_cells = bins[:14,:14], bins[14:,:14], bins[:14,14:], bins[14:,14:]
-    mag_cells = mag[:14,:14], mag[14:,:14], mag[:14,14:], mag[14:,14:]
-    hists = [np.bincount(b.ravel(), m.ravel(), NUM_BINS) for b, m in zip(bin_cells, mag_cells)]
-    hist = np.hstack(hists)
-    return hist
+        desl = imgproc.deslant(image)
+        return imgproc.hog(desl, NUM_BINS, NUM_CELLS / 2)
