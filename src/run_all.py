@@ -19,20 +19,20 @@ BENCHMARK_TRAIN_SIZES = [
     10000,
     20000,
     40000,
-    60000
+    # 60000
 ]
 BENCHMARK_TEST_SIZE = 10000
 
 CLASSIFIERS = [
-    knn_no_processing.KnnNoProcessing(),
-    knn_normsize_deslant.KnnNormSizeDeslant(),
+    # knn_no_processing.KnnNoProcessing(),
+    # knn_normsize_deslant.KnnNormSizeDeslant(),
     svm.SvmDeslantHog()
 ]
 
 
 def main():
-    test_all_classifiers()
-    # benchmark_all_classifiers()
+    # test_all_classifiers()
+    benchmark_all_classifiers()
 
 
 def test_all_classifiers():

@@ -38,7 +38,7 @@ class SvmDeslantHog(cs.GenericClassifier):
     def classify(self, image):
         proc = self.preprocess(image)
         arr = np.array(proc).reshape(-1, NUM_CELLS * NUM_BINS).astype(np.float32)
-        _, result =  self.svm.predict(arr)
+        _, result = self.svm.predict(arr)
         classification = int(result.ravel()[0])
         return classification
 
@@ -63,8 +63,9 @@ def hog(img):
     gy = cv2.Sobel(img, cv2.CV_32F, 0, 1)
     mag, ang = cv2.cartToPolar(gx, gy)
     bins = np.int32(NUM_BINS * ang / (2 * np.pi))
-    bin_cells = bins[:10,:10], bins[10:,:10], bins[:10,10:], bins[10:,10:]
-    mag_cells = mag[:10,:10], mag[10:,:10], mag[:10,10:], mag[10:,10:]
+    # TODO: remove hard-coded cell sizes
+    bin_cells = bins[:14,:14], bins[14:,:14], bins[:14,14:], bins[14:,14:]
+    mag_cells = mag[:14,:14], mag[14:,:14], mag[:14,14:], mag[14:,14:]
     hists = [np.bincount(b.ravel(), m.ravel(), NUM_BINS) for b, m in zip(bin_cells, mag_cells)]
     hist = np.hstack(hists)
     return hist
