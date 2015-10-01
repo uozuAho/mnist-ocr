@@ -1,47 +1,22 @@
-"""
-Run all the classifiers for testing / benchmarking
-"""
-
 from __future__ import print_function
 
 from utils import classifier as cf
 from utils import mnist
 
-import knn_no_processing
-import knn_normsize_deslant
-import svm
+import classifiers
 
-
-TEST_TRAIN_SIZE = 100
-TEST_TEST_SIZE = 100
 
 BENCHMARK_TRAIN_SIZES = [
     10000,
     20000,
     40000,
-    # 60000
+    60000
 ]
 BENCHMARK_TEST_SIZE = 10000
 
-CLASSIFIERS = [
-    # knn_no_processing.KnnNoProcessing(),
-    # knn_normsize_deslant.KnnNormSizeDeslant(),
-    svm.SvmDeslantHog()
-]
-
 
 def main():
-    # test_all_classifiers()
-    benchmark_all_classifiers()
-
-
-def test_all_classifiers():
-    for classifier in CLASSIFIERS:
-        run(classifier, TEST_TRAIN_SIZE, TEST_TEST_SIZE, short_report=True)
-
-
-def benchmark_all_classifiers():
-    for classifier in CLASSIFIERS:
+    for classifier in classifiers.CLASSIFIERS:
         for train_size in BENCHMARK_TRAIN_SIZES:
             run(classifier, train_size, BENCHMARK_TEST_SIZE)
 

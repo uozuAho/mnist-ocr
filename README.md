@@ -21,5 +21,4 @@ from the above site and use gunzip to decompress them.
 - renew benchmark figures of all classifiers
 - test preprocessing stages separately, see what gets best results
 - create preprocessing module for use among classifiers
-- create test, quick benchmark, full benchmark scripts
-- SVM example not very accurate... implementation mistake?
+- use python 3
