@@ -16,6 +16,7 @@ class KnnDigitClassifier(classifier.GenericClassifier):
         training_set = list(images)
         training_labels = list(labels)
         # get preprocessed image shape
+        a = training_set[0]
         h, w = training_set[0].shape[:2]
         # convert the training set into vectors (instead of m*n images)
         training_set = np.array(training_set).reshape(-1, h*w).astype(np.float32)

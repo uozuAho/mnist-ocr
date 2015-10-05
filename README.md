@@ -17,6 +17,5 @@ from the above site and use gunzip to decompress them.
 - get memory usage info of classifiers
 - parallelize knn classifiers
   - predictall? should run faster
-- try knn on binary images
 - renew benchmark figures of all classifiers
 - test preprocessing stages separately, see what gets best results
