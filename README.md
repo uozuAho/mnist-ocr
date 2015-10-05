@@ -9,7 +9,7 @@ To get the MNIST data files, run `get-mnist-data.sh`, or download the files
 from the above site and use gunzip to decompress them.
 
 # Dependencies
-- Python (tested using 2.7)
+- Python 3
 - OpenCV (tested using 3.0.0)
 - Numpy
 
@@ -20,4 +20,3 @@ from the above site and use gunzip to decompress them.
 - try knn on binary images
 - renew benchmark figures of all classifiers
 - test preprocessing stages separately, see what gets best results
-- use python 3

@@ -3,9 +3,6 @@
     Tested with python2, opencv3.0.0
 """
 
-
-from __future__ import print_function
-
 import os
 
 import cv2
@@ -76,12 +73,12 @@ def read_image_set(path, num_digits):
     """
     with open(path, 'rb') as infile:
         magic_num = infile.read(4)
-        assert(magic_num == '\x00\x00\x08\x03')
+        assert(magic_num == b'\x00\x00\x08\x03')
         # read past unused data
         infile.read(12)
         for i in range(num_digits):
-            img = np.array(
-                [ord(x) for x in infile.read(DIGIT_BYTES)], dtype=np.uint8)
+            img = np.array([int(x) for x in infile.read(DIGIT_BYTES)],
+                           dtype=np.uint8)
             yield img.reshape((DIGIT_HEIGHT, DIGIT_WIDTH))
 
 
@@ -93,7 +90,7 @@ def read_label_set(path, num_labels):
     """
     with open(path, 'rb') as infile:
         magic_num = infile.read(4)
-        assert(magic_num == '\x00\x00\x08\x01')
+        assert(magic_num == b'\x00\x00\x08\x01')
         # read past unused data
         infile.read(4)
         for i in range(num_labels):

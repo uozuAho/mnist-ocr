@@ -6,8 +6,6 @@
       determined size.
 """
 
-from __future__ import print_function
-
 from utils import classifier as cs
 from utils import imgproc
 from utils import knn

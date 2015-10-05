@@ -1,4 +1,3 @@
-import itertools
 import time
 
 
@@ -42,7 +41,7 @@ class ClassifierRunner(object):
 
     def run(self, images, labels):
         start = time.clock()
-        for image, label in itertools.izip(images, labels):
+        for image, label in zip(images, labels):
             cls = self.classifier.classify(image)
             self.stats.add(label, cls)
             self.num_classifies += 1
@@ -79,7 +78,7 @@ class ClassifierStats(object):
         s = "Total accuracy: {0:.2f}\n".format(
             float(self.num_correct) / self.num_classifications
         )
-        sorted_keys = self.label_stats.keys()
+        sorted_keys = list(self.label_stats.keys())
         sorted_keys.sort()
         for label in sorted_keys:
             stats = self.label_stats[label]
@@ -164,11 +163,11 @@ if __name__ == "__main__":
     cs.add('a', 'b')
     cs.add('b', 'b')
     cs.add('b', 'a')
-    print cs
+    print(cs)
 
     images = ['a', 'b', 'c']
     labels = ['a', 'b', 'c']
     cr = ClassifierRunner(GenericClassifier())
     cr.train(images, labels)
     cr.run(images, labels)
-    print cr.get_report_str()
+    print(cr.get_report_str())

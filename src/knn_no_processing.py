@@ -1,8 +1,6 @@
 """ kNN digit classifier, with no pre processing.
 """
 
-from __future__ import print_function
-
 from utils import mnist
 from utils import knn
 from utils import classifier

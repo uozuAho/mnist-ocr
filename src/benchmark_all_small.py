@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from utils import classifier as cf
 from utils import mnist
 
