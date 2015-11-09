@@ -5,7 +5,6 @@
 
 import os
 
-import cv2
 import numpy as np
 import itertools
 
@@ -24,24 +23,6 @@ DIGIT_BYTES = DIGIT_HEIGHT * DIGIT_WIDTH
 
 NUM_DIGITS_TRAIN = 60000
 NUM_DIGITS_TEST = 10000
-
-
-def main():
-    print("some training set examples")
-    for digit_img, label in itertools.izip(
-            read_image_set(TRAINING_IMAGES_PATH, 5),
-            read_label_set(TRAINING_LABELS_PATH, 5)):
-        print(label)
-        cv2.imshow('digit', digit_img)
-        cv2.waitKey(0)
-
-    print("some test set examples")
-    for digit_img, label in itertools.izip(
-            read_image_set(TEST_IMAGES_PATH, 5),
-            read_label_set(TEST_LABELS_PATH, 5)):
-        print(label)
-        cv2.imshow('digit', digit_img)
-        cv2.waitKey(0)
 
 
 def training_images(num_images=NUM_DIGITS_TRAIN):
@@ -98,4 +79,19 @@ def read_label_set(path, num_labels):
 
 
 if __name__ == '__main__':
-    main()
+    import cv2
+    print("some training set examples")
+    for digit_img, label in itertools.izip(
+            read_image_set(TRAINING_IMAGES_PATH, 5),
+            read_label_set(TRAINING_LABELS_PATH, 5)):
+        print(label)
+        cv2.imshow('digit', digit_img)
+        cv2.waitKey(0)
+
+    print("some test set examples")
+    for digit_img, label in itertools.izip(
+            read_image_set(TEST_IMAGES_PATH, 5),
+            read_label_set(TEST_LABELS_PATH, 5)):
+        print(label)
+        cv2.imshow('digit', digit_img)
+        cv2.waitKey(0)
