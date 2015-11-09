@@ -19,3 +19,4 @@ from the above site and use gunzip to decompress them.
   - predictall? should run faster
 - renew benchmark figures of all classifiers
 - test preprocessing stages separately, see what gets best results
+- svm with pca. see https://github.com/grfiv/MNIST/blob/master/MNIST.pdf

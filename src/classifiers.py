@@ -8,5 +8,6 @@ CLASSIFIERS = [
     knn_binary.KnnBinary(),
     knn_no_processing.KnnNoProcessing(),
     knn_normsize_deslant.KnnNormSizeDeslant(),
-    svm.SvmDeslantHog()
+    svm.SvmDeslantHog(),
+    svm.SvmPca()
 ]
